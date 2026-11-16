@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NovaStore — Інтернет-магазин техніки та електроніки</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    {% load static %}
+    <link href="{% static 'catalog/style.css' %}?v=4" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+        :root {
+            --ns-red: #e51937;
+            --ns-red-hover: #c8142e;
+            --ns-dark: #222222;
+            --ns-bg: #f4f4f6;
+            --ns-border: #e5e7eb;
+            --ns-text: #1f2937;
+        }
+
+        body {
+            background-color: var(--ns-bg) !important;
+            color: var(--ns-text) !important;
+            font-family: 'Inter', sans-serif !important;
+            min-height: 100vh;
+        }
+
+        .navbar-novastore {
+            background-color: var(--ns-dark) !important;
+            border-bottom: 1px solid #333;
+        }
+
+        .brand-logo {
+            font-weight: 800;
+            font-size: 1.65rem;
+            letter-spacing: -0.5px;
+            color: #ffffff !important;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .brand-logo span {
+            color: var(--ns-red);
+        }
+
+        .search-bar-wrapper {
+            display: flex;
+            background: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+            width: 100%;
+            max-width: 620px;
+        }
+
+        .search-bar-wrapper input {
+            border: none !important;
+            box-shadow: none !important;
+            padding: 10px 16px;
+            font-size: 0.95rem;
+            color: #111 !important;
+            background: #fff !important;
+        }
+
+        .btn-ns-red {
+            background-color: var(--ns-red) !important;
+            color: #ffffff !important;
+            border: none !important;
+            font-weight: 600;
+        }
+
+        .btn-ns-red:hover {
+            background-color: var(--ns-red-hover) !important;
+        }
+
+        .ns-card {
+            background: #ffffff !important;
+            border: 1px solid var(--ns-border) !important;
+            border-radius: 10px;
+        }
+
+        .ns-category-list {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .ns-cat-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 14px;
+            border-radius: 8px;
+            color: var(--ns-text) !important;
+            text-decoration: none;
+            font-size: 0.92rem;
+            font-weight: 500;
+            transition: all 0.15s ease;
+        }
+
+        .ns-cat-link:hover {
+            background-color: #f3f4f6;
+            color: var(--ns-red) !important;
+        }
+
+        .ns-cat-link.active {
+            background-color: #fff1f2;
+            color: var(--ns-red) !important;
+            font-weight: 700;
+            border-left: 3px solid var(--ns-red);
+        }
+
+        .ns-product-card {
+            background: #ffffff !important;
+            border: 1px solid var(--ns-border) !important;
+            border-radius: 10px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            transition: box-shadow 0.25s ease;
+        }
+
+        .ns-product-card:hover {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            border-color: #d1d5db !important;
+        }
+
+        .ns-img-box {
+            height: 200px;
+            width: 100%;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ffffff;
+            border-bottom: 1px solid #f3f4f6;
+            overflow: hidden;
+        }
+
+        .ns-img-box img {
+            max-height: 170px !important;
+            max-width: 100% !important;
+            width: auto !important;
+            height: auto !important;
+            object-fit: contain !important;
+        }
+
+        .ns-product-title {
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: #111827 !important;
+            text-decoration: none;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .ns-product-title:hover {
+            color: var(--ns-red) !important;
+        }
+
+        .ns-price {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--ns-red);
+        }
+
+        .ns-badge-promo {
+            display: inline-block;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 4px;
+            background-color: #fef2f2;
+            color: var(--ns-red);
+            border: 1px solid #fecaca;
+        }
+
+        .nav-icon-btn {
+            color: #ffffff !important;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.78rem;
+            gap: 2px;
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
+
+        .nav-icon-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <div style="background-color: #161616; color: #9ca3af; font-size: 0.8rem;" class="py-1 d-none d-md-block">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div class="d-flex gap-3">
+                <span>📍 Україна</span>
+                <span>Безкоштовна доставка від 1500 ₴</span>
+            </div>
+        </div>
+    </div>
+
+    <header class="navbar-novastore sticky-top py-3 shadow-sm">
+        <div class="container d-flex flex-wrap align-items-center justify-content-between gap-3">
+            <a class="brand-logo" href="{% url 'catalog:product_list' %}">
+                Nova<span>Store</span>
+            </a>
+
+            <form method="get" action="{% url 'catalog:product_list' %}" class="search-bar-wrapper flex-grow-1 mx-md-4">
+                {% if selected_category %}
+                    <input type="hidden" name="category" value="{{ selected_category }}">
+                {% endif %}
+                <input type="text" name="q" value="{{ query }}" class="form-control" placeholder="Я шукаю...">
+                <button type="submit" class="btn btn-ns-red px-4 rounded-0 fw-bold">Знайти</button>
+            </form>
+
+            <div class="d-flex align-items-center gap-2">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'accounts:profile' %}" class="nav-icon-btn">
+                        <span class="fs-5">👤</span>
+                        <span>{{ user.username }}</span>
+                    </a>
+                {% else %}
+                    <a href="{% url 'accounts:login' %}" class="nav-icon-btn">
+                        <span class="fs-5">👤</span>
+                        <span>Увійти</span>
+                    </a>
+                {% endif %}
+
+                <a href="{% url 'cart:cart_detail' %}" class="nav-icon-btn position-relative">
+                    <span class="fs-5">🛒</span>
+                    <span>Кошик</span>
+                    {% if cart|length > 0 %}
+                        <span class="position-absolute top-0 end-0 badge rounded-pill bg-danger" style="font-size: 0.7rem;">
+                            {{ cart|length }}
+                        </span>
+                    {% endif %}
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container py-4">
+        <div class="mb-3">
+            <nav aria-label="breadcrumb" style="font-size: 0.85rem;">
+                <ol class="breadcrumb mb-1">
+                    <li class="breadcrumb-item"><a href="{% url 'catalog:product_list' %}" class="text-decoration-none text-muted">Головна</a></li>
+                    <li class="breadcrumb-item active text-dark fw-medium" aria-current="page">
+                        {% if selected_category %}
+                            {% for cat in categories %}{% if cat.slug == selected_category %}{{ cat.title }}{% endif %}{% endfor %}
+                        {% else %}
+                            Усі товари
+                        {% endif %}
+                    </li>
+                </ol>
+            </nav>
+            <h1 class="h3 fw-bold text-dark mb-0">
+                {% if selected_category %}
+                    {% for cat in categories %}{% if cat.slug == selected_category %}{{ cat.title }}{% endif %}{% endfor %}
+                {% elif query %}
+                    Результати пошуку: «{{ query }}»
+                {% else %}
+                    Каталог техніки NovaStore
+                {% endif %}
+            </h1>
+        </div>
+
+        <div class="row g-4">
+            <aside class="col-lg-3">
+                <div class="ns-card p-3 sticky-top" style="top: 85px;">
+                    <div class="d-flex justify-content-between align-items-center pb-2 mb-2 border-bottom">
+                        <span class="fw-bold text-dark" style="font-size: 0.95rem;">Категорії товарів</span>
+                        {% if selected_category or query %}
+                            <a href="{% url 'catalog:product_list' %}" class="text-danger text-decoration-none" style="font-size: 0.8rem;">Скинути</a>
+                        {% endif %}
+                    </div>
+
+                    <div class="ns-category-list">
+                        <a href="{% url 'catalog:product_list' %}" class="ns-cat-link {% if not selected_category %}active{% endif %}">
+                            <span>Усі категорії</span>
+                            <span style="font-size: 0.8rem; opacity: 0.6;">→</span>
+                        </a>
+                        {% for cat in categories %}
+                            <a href="?category={{ cat.slug }}{% if query %}&q={{ query }}{% endif %}" class="ns-cat-link {% if selected_category == cat.slug %}active{% endif %}">
+                                <span>{{ cat.title }}</span>
+                                <span style="font-size: 0.8rem; opacity: 0.5;">›</span>
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </aside>
+
+            <section class="col-lg-9">
+                <div class="ns-card px-3 py-2 mb-3 d-flex flex-wrap justify-content-between align-items-center gap-2">
+                    <div class="d-flex align-items-center gap-2 flex-wrap">
+                        <span class="text-muted small">Знайдено товарів: <strong class="text-dark">{{ products|length }}</strong></span>
+                        {% if selected_category %}
+                            <span class="badge bg-light text-dark border d-inline-flex align-items-center gap-1 py-1 px-2">
+                                Категорія
+                                <a href="{% url 'catalog:product_list' %}{% if query %}?q={{ query }}{% endif %}" class="text-danger text-decoration-none fw-bold ms-1">✕</a>
+                            </span>
+                        {% endif %}
+                        {% if query %}
+                            <span class="badge bg-light text-dark border d-inline-flex align-items-center gap-1 py-1 px-2">
+                                «{{ query }}»
+                                <a href="{% url 'catalog:product_list' %}{% if selected_category %}?category={{ selected_category }}{% endif %}" class="text-danger text-decoration-none fw-bold ms-1">✕</a>
+                            </span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="row g-3">
+                    {% for product in products %}
+                        <div class="col-sm-6 col-xl-4">
+                            <div class="ns-product-card p-3">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <span class="text-muted" style="font-size: 0.75rem;">{{ product.category.title }}</span>
+                                    <span class="ns-badge-promo">В наявності</span>
+                                </div>
+
+                                <a href="{% url 'catalog:product_detail' product.slug %}" class="ns-img-box mb-3 text-decoration-none">
+                                    {% with main_image=product.images.first %}
+                                        {% if main_image %}
+                                            <img src="{{ main_image.image.url }}" alt="{{ product.title }}">
+                                        {% else %}
+                                            <span class="text-muted small">Немає фото</span>
+                                        {% endif %}
+                                    {% endwith %}
+                                </a>
+
+                                <a href="{% url 'catalog:product_detail' product.slug %}" class="ns-product-title mb-2">
+                                    {{ product.title }}
+                                </a>
+
+                                <div class="mb-3" style="font-size: 0.8rem; color: #f59e0b;">
+                                    ★★★★★ <span class="text-muted ms-1">(Відгуки)</span>
+                                </div>
+
+                                <div class="mt-auto pt-2 border-top">
+                                    <div class="mb-2">
+                                        <span class="text-muted" style="font-size: 0.75rem;">Ціна: </span>
+                                        <span class="ns-price">{{ product.price }} ₴</span>
+                                    </div>
+
+                                    <div class="d-flex align-items-center gap-2">
+                                        <a href="{% url 'catalog:product_detail' product.slug %}" class="btn btn-outline-secondary btn-sm py-2 px-2 rounded-2 flex-grow-1 text-center fw-medium">
+                                            Детальніше
+                                        </a>
+                                        <form action="{% url 'cart:cart_add' product.id %}" method="post" class="flex-grow-1">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="quantity" value="1">
+                                            <button type="submit" class="btn btn-ns-red btn-sm w-100 py-2 px-2 rounded-2 d-flex align-items-center justify-content-center gap-1">
+                                                <span>🛒</span>
+                                                <span>Купити</span>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <div class="col-12">
+                            <div class="ns-card p-5 text-center">
+                                <h5 class="fw-bold text-dark mb-2">За вашим запитом товарів не знайдено</h5>
+                                <p class="text-muted mb-3">Спробуйте змінити пошуковий запит або скинути вибрану категорію.</p>
+                                <a href="{% url 'catalog:product_list' %}" class="btn btn-ns-red px-4 py-2 rounded-2">Показати всі товари</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </section>
+        </div>
+    </main>
+
+</body>
+</html>

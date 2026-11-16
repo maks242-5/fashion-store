@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ product.title }} — NovaStore</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    {% load static %}
+    <link href="{% static 'catalog/style.css' %}?v=5" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+        :root {
+            --ns-red: #e51937;
+            --ns-red-hover: #c8142e;
+            --ns-dark: #222222;
+            --ns-bg: #f4f4f6;
+            --ns-border: #e5e7eb;
+            --ns-text: #1f2937;
+        }
+
+        body {
+            background-color: var(--ns-bg) !important;
+            color: var(--ns-text) !important;
+            font-family: 'Inter', sans-serif !important;
+            min-height: 100vh;
+        }
+
+        .navbar-novastore {
+            background-color: var(--ns-dark) !important;
+            border-bottom: 1px solid #333;
+        }
+
+        .brand-logo {
+            font-weight: 800;
+            font-size: 1.65rem;
+            letter-spacing: -0.5px;
+            color: #ffffff !important;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .brand-logo span {
+            color: var(--ns-red);
+        }
+
+        .btn-ns-red {
+            background-color: var(--ns-red) !important;
+            color: #ffffff !important;
+            border: none !important;
+            font-weight: 600;
+            transition: background-color 0.2s ease;
+        }
+
+        .btn-ns-red:hover {
+            background-color: var(--ns-red-hover) !important;
+        }
+
+        .ns-card {
+            background: #ffffff !important;
+            border: 1px solid var(--ns-border) !important;
+            border-radius: 12px;
+        }
+
+        .main-img-container {
+            height: 420px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            border: 1px solid #f3f4f6;
+        }
+
+        .main-img-container img {
+            max-height: 100%;
+            max-width: 100%;
+            object-fit: contain;
+        }
+
+        .thumb-btn {
+            width: 72px;
+            height: 72px;
+            padding: 6px;
+            background: #ffffff;
+            border: 2px solid var(--ns-border);
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: border-color 0.2s;
+        }
+
+        .thumb-btn:hover, .thumb-btn.active {
+            border-color: var(--ns-red);
+        }
+
+        .thumb-btn img {
+            max-height: 100%;
+            max-width: 100%;
+            object-fit: contain;
+        }
+
+        .nav-icon-btn {
+            color: #ffffff !important;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.78rem;
+            gap: 2px;
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
+
+        .nav-icon-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar-novastore sticky-top py-3 shadow-sm">
+        <div class="container d-flex align-items-center justify-content-between">
+            <a class="brand-logo" href="{% url 'catalog:product_list' %}">
+                Nova<span>Store</span>
+            </a>
+
+            <div class="d-flex align-items-center gap-3">
+                <a href="{% url 'catalog:product_list' %}" class="btn btn-outline-light btn-sm rounded-pill px-3">← Назад до каталогу</a>
+                <a href="{% url 'cart:cart_detail' %}" class="nav-icon-btn position-relative">
+                    <span class="fs-5">🛒</span>
+                    <span>Кошик</span>
+                    {% if cart|length > 0 %}
+                        <span class="position-absolute top-0 end-0 badge rounded-pill bg-danger" style="font-size: 0.7rem;">
+                            {{ cart|length }}
+                        </span>
+                    {% endif %}
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container py-4">
+        <!-- Хлібні крихти -->
+        <nav aria-label="breadcrumb" class="mb-3" style="font-size: 0.85rem;">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'catalog:product_list' %}" class="text-decoration-none text-muted">Головна</a></li>
+                <li class="breadcrumb-item">
+                    <a href="{% url 'catalog:product_list' %}?category={{ product.category.slug }}" class="text-decoration-none text-muted">
+                        {{ product.category.title }}
+                    </a>
+                </li>
+                <li class="breadcrumb-item active text-dark fw-medium" aria-current="page">{{ product.title }}</li>
+            </ol>
+        </nav>
+
+        <div class="ns-card p-4 p-md-5 shadow-sm">
+            <div class="row g-5">
+                <!-- Ліва колонка: Фотографії товару -->
+                <div class="col-lg-6">
+                    {% with images=product.images.all %}
+                        <div class="main-img-container mb-3">
+                            {% if images %}
+                                <img id="mainProductImage" src="{{ images.0.image.url }}" alt="{{ product.title }}">
+                            {% else %}
+                                <span class="text-muted">Зображення відсутнє</span>
+                            {% endif %}
+                        </div>
+
+                        {% if images|length > 1 %}
+                            <div class="d-flex gap-2 flex-wrap">
+                                {% for img in images %}
+                                    <div class="thumb-btn {% if forloop.first %}active{% endif %}" onclick="changeMainImage('{{ img.image.url }}', this)">
+                                        <img src="{{ img.image.url }}" alt="{{ product.title }}">
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    {% endwith %}
+                </div>
+
+                <!-- Права колонка: Назва, ціна, кнопка купити та опис -->
+                <div class="col-lg-6 d-flex flex-column">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <span class="badge bg-light text-secondary border px-2 py-1">{{ product.category.title }}</span>
+                        <span class="badge" style="background-color: #fef2f2; color: #e51937; border: 1px solid #fecaca;">✓ В наявності</span>
+                    </div>
+
+                    <h1 class="h3 fw-bold text-dark mb-2">{{ product.title }}</h1>
+
+                    <div class="mb-4" style="font-size: 0.9rem; color: #f59e0b;">
+                        ★★★★★ <span class="text-muted ms-1">Код товару: #{{ product.id }}</span>
+                    </div>
+
+                    <!-- Блок ціни та покупки -->
+                    <div class="p-4 rounded-3 mb-4" style="background-color: #f8fafc; border: 1px solid #e2e8f0;">
+                        <div class="text-muted small mb-1">Ціна:</div>
+                        <div class="fs-2 fw-extrabold mb-3" style="color: #e51937; font-weight: 800;">
+                            {{ product.price }} ₴
+                        </div>
+
+                        <form action="{% url 'cart:cart_add' product.id %}" method="post" class="d-flex flex-wrap align-items-center gap-3">
+                            {% csrf_token %}
+                            <div style="width: 110px;">
+                                <label class="form-label small text-muted mb-1">Кількість</label>
+                                <input type="number" name="quantity" value="1" min="1" max="20" class="form-control text-center fw-bold">
+                            </div>
+                            <div class="flex-grow-1 align-self-end">
+                                <button type="submit" class="btn btn-ns-red w-100 py-3 rounded-3 fs-5 d-flex align-items-center justify-content-center gap-2">
+                                    <span>🛒</span>
+                                    <span>Додати в кошик</span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Переваги доставки -->
+                    <div class="row g-2 mb-4 small text-secondary">
+                        <div class="col-6">
+                            <div class="p-2 border rounded bg-white">🚚 Доставка Новою Поштою 1-2 дні</div>
+                        </div>
+                        <div class="col-6">
+                            <div class="p-2 border rounded bg-white">🛡️ Офіційна гарантія 12 міс.</div>
+                        </div>
+                    </div>
+
+                    <!-- Опис та характеристики -->
+                    <div class="mt-2">
+                        <h5 class="fw-bold text-dark border-bottom pb-2 mb-3">Опис та характеристики</h5>
+                        <div class="text-secondary" style="line-height: 1.7; white-space: pre-line;">
+                            {% if product.description %}
+                                {{ product.description }}
+                            {% else %}
+                                Детальний опис для цього товару наразі оновлюється.
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function changeMainImage(url, element) {
+            document.getElementById('mainProductImage').src = url;
+            document.querySelectorAll('.thumb-btn').forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+        }
+    </script>
+
+</body>
+</html>

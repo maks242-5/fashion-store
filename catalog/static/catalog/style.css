@@ -1,0 +1,202 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --ns-red: #e51937;
+    --ns-red-hover: #c8142e;
+    --ns-dark: #222222;
+    --ns-bg: #f4f4f6;
+    --ns-border: #e5e7eb;
+    --ns-text: #1f2937;
+    --ns-muted: #6b7280;
+}
+
+body {
+    background-color: var(--ns-bg);
+    color: var(--ns-text);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+}
+
+/* Шапка у стилі Алло */
+.navbar-novastore {
+    background-color: var(--ns-dark);
+    border-bottom: 1px solid #333;
+}
+
+.brand-logo {
+    font-weight: 800;
+    font-size: 1.65rem;
+    letter-spacing: -0.5px;
+    color: #ffffff !important;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.brand-logo span {
+    color: var(--ns-red);
+}
+
+/* Пошук у шапці */
+.search-bar-wrapper {
+    display: flex;
+    background: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    width: 100%;
+    max-width: 620px;
+}
+
+.search-bar-wrapper input {
+    border: none !important;
+    box-shadow: none !important;
+    padding: 10px 16px;
+    font-size: 0.95rem;
+    color: #111 !important;
+    background: #fff !important;
+}
+
+.btn-ns-red {
+    background-color: var(--ns-red);
+    color: #ffffff !important;
+    border: none;
+    font-weight: 600;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-ns-red:hover {
+    background-color: var(--ns-red-hover);
+    color: #ffffff !important;
+}
+
+/* Мінімалістичний білий блок */
+.ns-card {
+    background: #ffffff;
+    border: 1px solid var(--ns-border);
+    border-radius: 10px;
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+/* Категорії у лівому сайдбарі */
+.ns-category-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.ns-cat-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    border-radius: 8px;
+    color: var(--ns-text);
+    text-decoration: none;
+    font-size: 0.92rem;
+    font-weight: 500;
+    transition: all 0.15s ease;
+}
+
+.ns-cat-link:hover {
+    background-color: #f3f4f6;
+    color: var(--ns-red);
+}
+
+.ns-cat-link.active {
+    background-color: #fff1f2;
+    color: var(--ns-red);
+    font-weight: 700;
+    border-left: 3px solid var(--ns-red);
+}
+
+/* Картка товару (сітка як в Алло) */
+.ns-product-card {
+    background: #ffffff;
+    border: 1px solid var(--ns-border);
+    border-radius: 10px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow 0.25s ease, transform 0.2s ease;
+}
+
+.ns-product-card:hover {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    border-color: #d1d5db;
+    z-index: 2;
+}
+
+.ns-img-box {
+    height: 210px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #ffffff;
+    border-bottom: 1px solid #f3f4f6;
+}
+
+.ns-img-box img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+    transition: transform 0.25s ease;
+}
+
+.ns-product-card:hover .ns-img-box img {
+    transform: scale(1.03);
+}
+
+.ns-product-title {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #111827;
+    text-decoration: none;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.ns-product-title:hover {
+    color: var(--ns-red);
+}
+
+.ns-price {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--ns-red);
+}
+
+.ns-badge-promo {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background-color: #fef2f2;
+    color: var(--ns-red);
+    border: 1px solid #fecaca;
+}
+
+/* Кнопки дій в шапці */
+.nav-icon-btn {
+    color: #ffffff;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 0.78rem;
+    gap: 2px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    transition: background 0.2s;
+}
+
+.nav-icon-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+}

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Оформлення замовлення — TechZone</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body style="background-color: #0F172A; color: #F8FAFC;">
+    <nav class="navbar navbar-dark mb-4" style="background-color: #1E293B;">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-info" href="{% url 'catalog:product_list' %}">⚡ TechZone</a>
+        </div>
+    </nav>
+
+    <div class="container my-5">
+        <div class="row g-4">
+            <div class="col-md-7">
+                <div class="p-4 rounded" style="background-color: #1E293B; border: 1px solid #334155;">
+                    <h3 class="mb-4">📦 Дані для доставки</h3>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">Ім’я</label>
+                                <input type="text" name="first_name" class="form-control bg-dark text-light border-secondary" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Прізвище</label>
+                                <input type="text" name="last_name" class="form-control bg-dark text-light border-secondary" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Email</label>
+                                <input type="email" name="email" value="{{ user.email|default:'' }}" class="form-control bg-dark text-light border-secondary" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Телефон</label>
+                                <input type="text" name="phone" placeholder="+380..." class="form-control bg-dark text-light border-secondary" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Місто</label>
+                                <input type="text" name="city" class="form-control bg-dark text-light border-secondary" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Адреса або відділення НП</label>
+                                <input type="text" name="address" class="form-control bg-dark text-light border-secondary" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 mt-4 py-2 fw-bold">Підтвердити замовлення</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-md-5">
+                <div class="p-4 rounded" style="background-color: #1E293B; border: 1px solid #334155;">
+                    <h4 class="mb-3">Ваше замовлення</h4>
+                    <ul class="list-group list-group-flush mb-3">
+                        {% for item in cart %}
+                            <li class="list-group-item bg-transparent text-light d-flex justify-content-between border-secondary">
+                                <span>{{ item.product.title }} × {{ item.quantity }}</span>
+                                <span>{{ item.total_price }} ₴</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                    <h5 class="text-end">Разом: <span class="text-info">{{ cart.get_total_price }} ₴</span></h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

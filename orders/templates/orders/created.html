@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Замовлення прийнято — TechZone</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body style="background-color: #0F172A; color: #F8FAFC;">
+    <div class="container my-5 text-center">
+        <div class="p-5 rounded mx-auto" style="max-width: 600px; background-color: #1E293B; border: 1px solid #334155;">
+            <h1 class="text-success mb-3">✅ Дякуємо за замовлення!</h1>
+            <p class="fs-5">Номер вашого замовлення: <strong class="text-info">#{{ order.id }}</strong></p>
+            <p class="text-secondary">Ми надіслали підтвердження на <strong>{{ order.email }}</strong>. Найближчим часом менеджер зв’яжеться з вами.</p>
+            <a href="{% url 'catalog:product_list' %}" class="btn btn-primary mt-3">Повернутися до каталогу</a>
+        </div>
+    </div>
+</body>
+</html>
