@@ -7,50 +7,214 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     {% load static %}
     <link href="{% static 'catalog/style.css' %}?v=6" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+        :root {
+            --dk-bg: #0b0d12;
+            --dk-surface: #121620;
+            --dk-surface-2: #171c28;
+            --dk-border: rgba(255, 255, 255, 0.1);
+            --dk-border-strong: rgba(255, 255, 255, 0.24);
+            --dk-text: #f3f4f6;
+            --dk-muted: #9ca3af;
+            --dk-accent: #e51937;
+            --dk-accent-soft: rgba(229, 25, 55, 0.14);
+        }
+
+        body {
+            background: radial-gradient(circle at top right, #181e2c 0%, var(--dk-bg) 52%) !important;
+            color: var(--dk-text) !important;
+            font-family: 'Inter', sans-serif !important;
+            min-height: 100vh;
+        }
+
+        .dk-navbar {
+            background: rgba(11, 13, 18, 0.88) !important;
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--dk-border);
+        }
+
+        .dk-brand {
+            color: #ffffff !important;
+            font-weight: 800;
+            letter-spacing: -0.4px;
+            text-decoration: none;
+        }
+
+        .dk-brand span {
+            color: var(--dk-accent);
+        }
+
+        .dk-btn-back {
+            background: #141923;
+            color: #e5e7eb !important;
+            border: 1px solid var(--dk-border-strong);
+            transition: all 0.2s ease;
+        }
+
+        .dk-btn-back:hover {
+            background: #1d2433;
+            border-color: rgba(255, 255, 255, 0.42);
+            color: #ffffff !important;
+        }
+
+        .dk-panel {
+            background: var(--dk-surface);
+            border: 1px solid var(--dk-border);
+            border-radius: 16px;
+            box-shadow: 0 18px 40px rgba(0, 0, 0, 0.45);
+        }
+
+        .dk-table {
+            color: var(--dk-text) !important;
+            --bs-table-bg: transparent;
+            --bs-table-color: var(--dk-text);
+            --bs-table-border-color: rgba(255, 255, 255, 0.08);
+        }
+
+        .dk-table thead th {
+            color: var(--dk-muted) !important;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            font-weight: 700;
+            border-bottom: 1px solid var(--dk-border-strong) !important;
+            padding-bottom: 14px;
+        }
+
+        .dk-table tbody td {
+            padding-top: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+        }
+
+        .dk-thumb {
+            width: 54px;
+            height: 54px;
+            background: #0d1017;
+            border: 1px solid var(--dk-border);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .dk-thumb img {
+            max-width: 44px;
+            max-height: 44px;
+            object-fit: contain;
+        }
+
+        .dk-input {
+            background-color: var(--dk-surface-2) !important;
+            color: #ffffff !important;
+            border: 1px solid var(--dk-border) !important;
+            border-radius: 10px !important;
+            padding: 11px 14px !important;
+            font-size: 0.95rem !important;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .dk-input::placeholder {
+            color: #6b7280 !important;
+        }
+
+        .dk-input:focus {
+            background-color: #1b2130 !important;
+            border-color: var(--dk-accent) !important;
+            box-shadow: 0 0 0 3px rgba(229, 25, 55, 0.22) !important;
+        }
+
+        .dk-payment-box {
+            background: var(--dk-surface-2);
+            border: 1px solid var(--dk-border-strong);
+            border-radius: 12px;
+            padding: 16px 18px;
+        }
+
+        .dk-payment-box .form-check-input:checked {
+            background-color: var(--dk-accent);
+            border-color: var(--dk-accent);
+        }
+
+        .dk-pay-btn {
+            background: linear-gradient(180deg, #161b26 0%, #0b0e14 100%) !important;
+            color: #ffffff !important;
+            border: 1.5px solid rgba(255, 255, 255, 0.35) !important;
+            box-shadow: 0 10px 26px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+            transition: all 0.2s ease;
+        }
+
+        .dk-pay-btn:hover {
+            background: linear-gradient(180deg, #1f2636 0%, #10141e 100%) !important;
+            border-color: var(--dk-accent) !important;
+            box-shadow: 0 12px 30px rgba(229, 25, 55, 0.25), 0 0 0 2px rgba(229, 25, 55, 0.35);
+            transform: translateY(-1px);
+        }
+
+        .dk-pay-btn:active {
+            transform: translateY(0);
+        }
+
+        .dk-info-note {
+            background: var(--dk-accent-soft);
+            border: 1px solid rgba(229, 25, 55, 0.35);
+            color: #fecdd3;
+            border-radius: 12px;
+            padding: 14px 16px;
+            font-size: 0.88rem;
+        }
+    </style>
 </head>
 <body>
-    <nav class="navbar navbar-dark navbar-glass sticky-top mb-5 py-3">
+    <nav class="navbar navbar-dark dk-navbar sticky-top mb-5 py-3">
         <div class="container">
-            <a class="navbar-brand fw-bold fs-4 text-info tracking-wider" href="{% url 'catalog:product_list' %}">⚡ TECHZONE</a>
-            <a href="{% url 'catalog:product_list' %}" class="btn btn-outline-light btn-sm rounded-pill px-4">← До каталогу</a>
+            <a class="navbar-brand fs-4 dk-brand" href="{% url 'catalog:product_list' %}">Nova<span>Store</span></a>
+            <a href="{% url 'catalog:product_list' %}" class="btn dk-btn-back btn-sm rounded-pill px-4 py-2 fw-medium">← До каталогу</a>
         </div>
     </nav>
 
     <div class="container mb-5">
         <h2 class="mb-4 fw-bold text-white">🛒 Кошик та оформлення замовлення</h2>
         {% if cart %}
-            <div class="glass-card p-4 mb-4" style="background: rgba(255, 255, 255, 0.92); color: #000000;">
+            <div class="dk-panel p-4 mb-4">
                 <div class="table-responsive">
-                    <table class="table align-middle mb-0" style="color: #000000;">
+                    <table class="table dk-table align-middle mb-0">
                         <thead>
-                            <tr style="color: #000000; border-bottom: 2px solid #cbd5e1;">
-                                <th style="color: #000000; font-weight: bold;">Товар</th>
-                                <th style="color: #000000; font-weight: bold;">Кількість</th>
-                                <th style="color: #000000; font-weight: bold;">Ціна</th>
-                                <th style="color: #000000; font-weight: bold;">Сума</th>
-                                <th class="text-end" style="color: #000000; font-weight: bold;">Дія</th>
+                            <tr>
+                                <th>Товар</th>
+                                <th>Кількість</th>
+                                <th>Ціна</th>
+                                <th>Сума</th>
+                                <th class="text-end">Дія</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for item in cart %}
-                                <tr style="color: #000000; border-bottom: 1px solid #e2e8f0;">
+                                <tr>
                                     <td>
                                         <div class="d-flex align-items-center gap-3">
                                             {% with main_image=item.product.images.first %}
                                                 {% if main_image %}
-                                                    <div class="bg-white rounded p-1 border" style="width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-                                                        <img src="{{ main_image.image.url }}" alt="{{ item.product.title }}" style="max-height: 45px; max-width: 45px; object-fit: contain;">
+                                                    <div class="dk-thumb">
+                                                        <img src="{{ main_image.image.url }}" alt="{{ item.product.title }}">
                                                     </div>
                                                 {% else %}
-                                                    <div class="bg-light rounded text-dark d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; font-size: 10px;">Ні фото</div>
+                                                    <div class="dk-thumb text-secondary" style="font-size: 10px;">Ні фото</div>
                                                 {% endif %}
                                             {% endwith %}
-                                            <span class="fw-bold fs-6" style="color: #000000 !important;">{{ item.product.title }}</span>
+                                            <span class="fw-semibold fs-6 text-white">{{ item.product.title }}</span>
                                         </div>
                                     </td>
-                                    <td><span class="badge bg-dark text-white px-3 py-2 rounded-pill">{{ item.quantity }} шт.</span></td>
-                                    <td style="color: #000000; font-weight: 600;">{{ item.price }} ₴</td>
-                                    <td style="color: #000000; font-weight: bold;">{{ item.total_price }} ₴</td>
+                                    <td>
+                                        <span class="badge px-3 py-2 rounded-pill" style="background: #1f2636; color: #f9fafb; border: 1px solid rgba(255,255,255,0.14);">
+                                            {{ item.quantity }} шт.
+                                        </span>
+                                    </td>
+                                    <td class="text-light fw-medium">{{ item.price }} ₴</td>
+                                    <td class="text-white fw-bold">{{ item.total_price }} ₴</td>
                                     <td class="text-end">
                                         <a href="{% url 'cart:cart_remove' item.product.id %}" class="btn btn-sm btn-outline-danger rounded-circle p-2 d-inline-flex align-items-center justify-content-center" style="width: 32px; height: 32px;">✕</a>
                                     </td>
@@ -63,53 +227,55 @@
 
             <div class="row g-4">
                 <div class="col-lg-7">
-                    <div class="glass-card p-4 p-md-5">
-                        <h4 class="mb-4 text-info fw-bold">📦 Дані для доставки та оплати</h4>
+                    <div class="dk-panel p-4 p-md-5">
+                        <h4 class="mb-4 text-white fw-bold">📦 Дані для доставки та оплати</h4>
                         <form method="post">
                             {% csrf_token %}
                             <div class="row g-3">
                                 <div class="col-md-6">
-                                    <label class="form-label text-secondary small uppercase">Ім’я</label>
-                                    <input type="text" name="first_name" class="form-control" required>
+                                    <label class="form-label text-secondary small text-uppercase fw-semibold">Ім’я</label>
+                                    <input type="text" name="first_name" class="form-control dk-input" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="form-label text-secondary small uppercase">Прізвище</label>
-                                    <input type="text" name="last_name" class="form-control" required>
+                                    <label class="form-label text-secondary small text-uppercase fw-semibold">Прізвище</label>
+                                    <input type="text" name="last_name" class="form-control dk-input" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="form-label text-secondary small uppercase">Email</label>
-                                    <input type="email" name="email" value="{{ user.email|default:'' }}" class="form-control" required>
+                                    <label class="form-label text-secondary small text-uppercase fw-semibold">Email</label>
+                                    <input type="email" name="email" value="{{ user.email|default:'' }}" class="form-control dk-input" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="form-label text-secondary small uppercase">Телефон</label>
-                                    <input type="text" name="phone" placeholder="+380..." class="form-control" required>
+                                    <label class="form-label text-secondary small text-uppercase fw-semibold">Телефон</label>
+                                    <input type="text" name="phone" placeholder="+380..." class="form-control dk-input" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="form-label text-secondary small uppercase">Місто</label>
-                                    <input type="text" name="city" class="form-control" required>
+                                    <label class="form-label text-secondary small text-uppercase fw-semibold">Місто</label>
+                                    <input type="text" name="city" class="form-control dk-input" required>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="form-label text-secondary small uppercase">Відділення Нової Пошти</label>
-                                    <input type="text" name="address" class="form-control" required>
+                                    <label class="form-label text-secondary small text-uppercase fw-semibold">Відділення Нової Пошти</label>
+                                    <input type="text" name="address" class="form-control dk-input" required>
                                 </div>
                             </div>
                             <hr class="border-secondary opacity-25 my-4">
                             <div class="mb-4">
-                                <label class="form-label fw-bold mb-3">Спосіб оплати:</label>
-                                <div class="form-check p-3 rounded-3" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08);">
-                                    <input class="form-check-input mt-1" type="radio" name="payment_method" checked id="card">
-                                    <label class="form-check-label text-info fw-semibold ms-2" for="card">
+                                <label class="form-label fw-bold text-white mb-3">Спосіб оплати:</label>
+                                <div class="form-check dk-payment-box">
+                                    <input class="form-check-input mt-1 ms-0 me-2" type="radio" name="payment_method" checked id="card">
+                                    <label class="form-check-label text-white fw-semibold" for="card">
                                         💳 Онлайн-оплата карткою (Visa / MasterCard / LiqPay)
                                     </label>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-neon w-100 py-3 rounded-pill fw-bold fs-5">Оплатити {{ cart.get_total_price }} ₴</button>
+                            <button type="submit" class="btn dk-pay-btn w-100 py-3 rounded-pill fw-bold fs-5">
+                                Оплатити {{ cart.get_total_price }} ₴
+                            </button>
                         </form>
                     </div>
                 </div>
 
                 <div class="col-lg-5">
-                    <div class="glass-card p-4 p-md-5">
+                    <div class="dk-panel p-4 p-md-5">
                         <h4 class="fw-bold mb-4 text-white">Підсумок замовлення</h4>
                         <div class="d-flex justify-content-between mb-3 text-secondary">
                             <span>Товарів у кошику:</span>
@@ -120,20 +286,20 @@
                             <span class="text-success fw-semibold">Безкоштовно</span>
                         </div>
                         <hr class="border-secondary opacity-25 my-4">
-                        <div class="d-flex justify-content-between fs-4 fw-bold text-info mb-4">
+                        <div class="d-flex justify-content-between fs-4 fw-bold text-white mb-4">
                             <span>До сплати:</span>
-                            <span>{{ cart.get_total_price }} ₴</span>
+                            <span style="color: #ff4d67;">{{ cart.get_total_price }} ₴</span>
                         </div>
-                        <div class="p-3 rounded-3 bg-info bg-opacity-10 border border-info border-opacity-25 small text-info">
+                        <div class="dk-info-note">
                             ✨ Швидка доставка Новою Поштою по всій Україні протягом 1-2 днів.
                         </div>
                     </div>
                 </div>
             </div>
         {% else %}
-            <div class="glass-card text-center py-5 p-5">
+            <div class="dk-panel text-center py-5 p-5">
                 <p class="text-secondary fs-4 mb-4">Ваш кошик наразі порожній.</p>
-                <a href="{% url 'catalog:product_list' %}" class="btn btn-neon rounded-pill px-5 py-3">Перейти до каталогу гаджетів</a>
+                <a href="{% url 'catalog:product_list' %}" class="btn dk-pay-btn rounded-pill px-5 py-3 fw-semibold">Перейти до каталогу гаджетів</a>
             </div>
         {% endif %}
     </div>

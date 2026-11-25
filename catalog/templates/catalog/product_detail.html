@@ -145,7 +145,6 @@
     </header>
 
     <main class="container py-4">
-        <!-- Хлібні крихти -->
         <nav aria-label="breadcrumb" class="mb-3" style="font-size: 0.85rem;">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="{% url 'catalog:product_list' %}" class="text-decoration-none text-muted">Головна</a></li>
@@ -160,7 +159,6 @@
 
         <div class="ns-card p-4 p-md-5 shadow-sm">
             <div class="row g-5">
-                <!-- Ліва колонка: Фотографії товару -->
                 <div class="col-lg-6">
                     {% with images=product.images.all %}
                         <div class="main-img-container mb-3">
@@ -183,11 +181,14 @@
                     {% endwith %}
                 </div>
 
-                <!-- Права колонка: Назва, ціна, кнопка купити та опис -->
                 <div class="col-lg-6 d-flex flex-column">
                     <div class="d-flex align-items-center justify-content-between mb-2">
                         <span class="badge bg-light text-secondary border px-2 py-1">{{ product.category.title }}</span>
-                        <span class="badge" style="background-color: #fef2f2; color: #e51937; border: 1px solid #fecaca;">✓ В наявності</span>
+                        {% if product.stock_quantity > 0 %}
+                            <span class="badge" style="background-color: #fef2f2; color: #e51937; border: 1px solid #fecaca;">✓ В наявності</span>
+                        {% else %}
+                            <span class="badge bg-secondary text-light">Не в наявності</span>
+                        {% endif %}
                     </div>
 
                     <h1 class="h3 fw-bold text-dark mb-2">{{ product.title }}</h1>
@@ -196,29 +197,33 @@
                         ★★★★★ <span class="text-muted ms-1">Код товару: #{{ product.id }}</span>
                     </div>
 
-                    <!-- Блок ціни та покупки -->
                     <div class="p-4 rounded-3 mb-4" style="background-color: #f8fafc; border: 1px solid #e2e8f0;">
                         <div class="text-muted small mb-1">Ціна:</div>
                         <div class="fs-2 fw-extrabold mb-3" style="color: #e51937; font-weight: 800;">
                             {{ product.price }} ₴
                         </div>
 
-                        <form action="{% url 'cart:cart_add' product.id %}" method="post" class="d-flex flex-wrap align-items-center gap-3">
-                            {% csrf_token %}
-                            <div style="width: 110px;">
-                                <label class="form-label small text-muted mb-1">Кількість</label>
-                                <input type="number" name="quantity" value="1" min="1" max="20" class="form-control text-center fw-bold">
-                            </div>
-                            <div class="flex-grow-1 align-self-end">
-                                <button type="submit" class="btn btn-ns-red w-100 py-3 rounded-3 fs-5 d-flex align-items-center justify-content-center gap-2">
-                                    <span>🛒</span>
-                                    <span>Додати в кошик</span>
-                                </button>
-                            </div>
-                        </form>
+                        {% if product.stock_quantity > 0 %}
+                            <form action="{% url 'cart:cart_add' product.id %}" method="post" class="d-flex flex-wrap align-items-center gap-3">
+                                {% csrf_token %}
+                                <div style="width: 110px;">
+                                    <label class="form-label small text-muted mb-1">Кількість</label>
+                                    <input type="number" name="quantity" value="1" min="1" max="{{ product.stock_quantity }}" class="form-control text-center fw-bold">
+                                </div>
+                                <div class="flex-grow-1 align-self-end">
+                                    <button type="submit" class="btn btn-ns-red w-100 py-3 rounded-3 fs-5 d-flex align-items-center justify-content-center gap-2">
+                                        <span>🛒</span>
+                                        <span>Додати в кошик</span>
+                                    </button>
+                                </div>
+                            </form>
+                        {% else %}
+                            <button type="button" class="btn btn-outline-secondary w-100 py-3 rounded-3 fs-6 fw-semibold" disabled>
+                                Не в наявності
+                            </button>
+                        {% endif %}
                     </div>
 
-                    <!-- Переваги доставки -->
                     <div class="row g-2 mb-4 small text-secondary">
                         <div class="col-6">
                             <div class="p-2 border rounded bg-white">🚚 Доставка Новою Поштою 1-2 дні</div>
@@ -228,7 +233,6 @@
                         </div>
                     </div>
 
-                    <!-- Опис та характеристики -->
                     <div class="mt-2">
                         <h5 class="fw-bold text-dark border-bottom pb-2 mb-3">Опис та характеристики</h5>
                         <div class="text-secondary" style="line-height: 1.7; white-space: pre-line;">

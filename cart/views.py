@@ -1,9 +1,18 @@
+from django.core.cache import cache
+from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.decorators.http import require_POST
-from django.core.mail import send_mail
 from catalog.models import Product
 from orders.models import Order, OrderItem
 from .cart import Cart
+
+
+def _invalidate_catalog_cache():
+    try:
+        cache.delete('catalog_products_base')
+        cache.delete('catalog_featured_products')
+    except Exception:
+        pass
 
 
 @require_POST
@@ -25,7 +34,6 @@ def cart_remove(request, product_id):
 def cart_detail(request):
     cart = Cart(request)
 
-    # Обробка оформлення замовлення і миттєвої оплати прямо з кошика
     if request.method == 'POST':
         if len(cart) == 0:
             return redirect('cart:cart_detail')
@@ -38,9 +46,9 @@ def cart_detail(request):
             phone=request.POST.get('phone'),
             city=request.POST.get('city'),
             address=request.POST.get('address'),
-            paid=True,  # Імітуємо успішну онлайн-оплату
+            paid=True,
         )
-        
+
         for item in cart:
             OrderItem.objects.create(
                 order=order,
@@ -49,10 +57,14 @@ def cart_detail(request):
                 quantity=item['quantity'],
             )
             product = item['product']
-            if product.stock_quantity >= item['quantity']:
-                product.stock_quantity -= item['quantity']
-                product.save()
-
+            qty = item['quantity']
+            if product.stock_quantity >= qty:
+                product.stock_quantity -= qty
+                product.save(update_fields=['stock_quantity'])
+            elif product.stock_quantity > 0:
+                product.stock_quantity = 0
+                product.save(update_fields=['stock_quantity'])
+        _invalidate_catalog_cache()
         cart.clear()
 
         send_mail(

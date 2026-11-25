@@ -1,10 +1,10 @@
-# 🛍️ NovaStore - E-Commerce Web Application
+#  NovaStore - E-Commerce Web Application
 
 A full-stack e-commerce web application built with **Python & Django**, designed for a seamless online shopping experience.
 
 ---
 
-## 🚀 Features
+##  Features
 - **User Authentication:** Secure registration, login, and user profile management.
 - **Product Catalog:** Browse products, view detailed item pages, and filter items.
 - **Shopping Cart:** Add, update, and remove items dynamically.
@@ -13,14 +13,14 @@ A full-stack e-commerce web application built with **Python & Django**, designed
 
 ---
 
-## 🛠️ Tech Stack
+##  Tech Stack
 - **Backend:** Python, Django, SQLite
 - **Frontend:** HTML5, CSS3, JavaScript
 - **Deployment / Tools:** Docker, Git / GitHub
 
 ---
 
-## ⚙️ How to Run Locally
+## s How to Run Locally
 
 1. Clone the repository:
    ```bash

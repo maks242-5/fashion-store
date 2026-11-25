@@ -2,24 +2,194 @@
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
-    <title>Реєстрація — TechZone</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Реєстрація — NovaStore</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+        :root {
+            --dk-bg: #0b0d12;
+            --dk-surface: #121620;
+            --dk-surface-2: #171c28;
+            --dk-border: rgba(255, 255, 255, 0.1);
+            --dk-border-strong: rgba(255, 255, 255, 0.24);
+            --dk-text: #f3f4f6;
+            --dk-muted: #9ca3af;
+            --dk-accent: #e51937;
+        }
+
+        body {
+            background: radial-gradient(circle at top right, #181e2c 0%, var(--dk-bg) 55%) !important;
+            color: var(--dk-text) !important;
+            font-family: 'Inter', sans-serif !important;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .dk-navbar {
+            background: rgba(11, 13, 18, 0.88);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--dk-border);
+        }
+
+        .dk-brand {
+            color: #ffffff !important;
+            font-weight: 800;
+            letter-spacing: -0.4px;
+            text-decoration: none;
+        }
+
+        .dk-brand span {
+            color: var(--dk-accent);
+        }
+
+        .dk-btn-back {
+            background: #141923;
+            color: #e5e7eb !important;
+            border: 1px solid var(--dk-border-strong);
+            transition: all 0.2s ease;
+        }
+
+        .dk-btn-back:hover {
+            background: #1d2433;
+            border-color: rgba(255, 255, 255, 0.42);
+            color: #ffffff !important;
+        }
+
+        .auth-wrapper {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 16px;
+        }
+
+        .dk-auth-card {
+            width: 100%;
+            max-width: 460px;
+            background: var(--dk-surface);
+            border: 1px solid var(--dk-border);
+            border-radius: 18px;
+            padding: 36px 32px;
+            box-shadow: 0 22px 50px rgba(0, 0, 0, 0.55);
+        }
+
+        .dk-form p {
+            margin-bottom: 18px;
+        }
+
+        .dk-form label {
+            display: block;
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 600;
+            color: var(--dk-muted);
+            margin-bottom: 7px;
+        }
+
+        .dk-form input[type="text"],
+        .dk-form input[type="password"],
+        .dk-form input[type="email"] {
+            width: 100%;
+            background-color: var(--dk-surface-2);
+            color: #ffffff;
+            border: 1px solid var(--dk-border);
+            border-radius: 10px;
+            padding: 11px 14px;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .dk-form input:focus {
+            background-color: #1b2130;
+            border-color: var(--dk-accent);
+            box-shadow: 0 0 0 3px rgba(229, 25, 55, 0.22);
+        }
+
+        .dk-form .helptext,
+        .dk-form ul:not(.errorlist) {
+            display: block;
+            font-size: 0.78rem;
+            color: #6b7280;
+            margin-top: 6px;
+            padding-left: 16px;
+        }
+
+        .dk-form ul.errorlist {
+            list-style: none;
+            padding: 10px 12px;
+            margin: 0 0 14px 0;
+            border-radius: 10px;
+            background: rgba(229, 25, 55, 0.14);
+            border: 1px solid rgba(229, 25, 55, 0.35);
+            color: #fecdd3;
+            font-size: 0.85rem;
+        }
+
+        .dk-submit-btn {
+            background: linear-gradient(180deg, #161b26 0%, #0b0e14 100%) !important;
+            color: #ffffff !important;
+            border: 1.5px solid rgba(255, 255, 255, 0.35) !important;
+            box-shadow: 0 10px 26px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+            transition: all 0.2s ease;
+        }
+
+        .dk-submit-btn:hover {
+            background: linear-gradient(180deg, #1f2636 0%, #10141e 100%) !important;
+            border-color: var(--dk-accent) !important;
+            box-shadow: 0 12px 30px rgba(229, 25, 55, 0.25), 0 0 0 2px rgba(229, 25, 55, 0.35);
+            transform: translateY(-1px);
+        }
+
+        .dk-link {
+            color: #ff4d67;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .dk-link:hover {
+            color: #ff758a;
+            text-decoration: underline;
+        }
+    </style>
 </head>
-<body style="background-color: #0F172A; color: #F8FAFC;">
-    <div class="container my-5">
-        <div class="row justify-content-center">
-            <div class="col-md-4 p-4 rounded" style="background-color: #1E293B; border: 1px solid #334155;">
-                <h3 class="mb-3 text-info">⚡ Реєстрація</h3>
-                <form method="post">
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                    <button type="submit" class="btn btn-primary w-100">Створити акаунт</button>
-                </form>
-                <p class="mt-3 text-center mb-0">
-                    <a href="{% url 'accounts:login' %}" class="text-info">Вже є акаунт? Увійти</a>
-                </p>
-            </div>
+<body>
+    <nav class="navbar navbar-dark dk-navbar py-3">
+        <div class="container">
+            <a class="navbar-brand fs-4 dk-brand" href="{% url 'catalog:product_list' %}">Nova<span>Store</span></a>
+            <a href="{% url 'catalog:product_list' %}" class="btn dk-btn-back btn-sm rounded-pill px-4 py-2 fw-medium">← До каталогу</a>
         </div>
-    </div>
+    </nav>
+
+    <main class="auth-wrapper">
+        <div class="dk-auth-card">
+            <div class="mb-4">
+                <span class="badge rounded-pill px-3 py-1 mb-2" style="background: rgba(229, 25, 55, 0.14); color: #ff4d67; border: 1px solid rgba(229, 25, 55, 0.3);">
+                    Новий акаунт
+                </span>
+                <h3 class="fw-bold text-white mb-1">Реєстрація в NovaStore</h3>
+                <p class="text-secondary small mb-0">Створіть профіль, щоб відстежувати замовлення та зберігати кошик</p>
+            </div>
+
+            <form method="post" class="dk-form">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn dk-submit-btn w-100 py-3 rounded-pill fw-bold fs-6 mt-2">
+                    Створити акаунт
+                </button>
+            </form>
+
+            <hr class="border-secondary opacity-25 my-4">
+
+            <p class="text-center text-secondary small mb-0">
+                Вже є акаунт?
+                <a href="{% url 'accounts:login' %}" class="dk-link ms-1">Увійти</a>
+            </p>
+        </div>
+    </main>
 </body>
 </html>

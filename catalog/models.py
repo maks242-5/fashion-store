@@ -32,6 +32,10 @@ class Product(models.Model):
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    @property
+    def in_stock(self):
+        return bool(self.is_active and self.stock_quantity > 0)
+
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.title)
@@ -39,7 +43,8 @@ class Product(models.Model):
 
     def __str__(self):
         return self.title
-    
+
+
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images')
     image = models.ImageField(upload_to='products/')
@@ -47,7 +52,8 @@ class ProductImage(models.Model):
 
     def __str__(self):
         return f"Фото для {self.product.title}"
-    
+
+
 class Review(models.Model):
     product = models.ForeignKey(Product, related_name='reviews', on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
